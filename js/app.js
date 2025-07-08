@@ -35,11 +35,13 @@ class FoodieFinder {
         const openFilter = document.getElementById('open-filter');
         const halalFilter = document.getElementById('halal-filter');
         const clearFiltersBtn = document.querySelector('.clear-filters-btn');
+        const locationFilter = document.getElementById('location-filter');
 
         priceFilter.addEventListener('change', this.handleFilters.bind(this));
         openFilter.addEventListener('change', this.handleFilters.bind(this));
         halalFilter.addEventListener('change', this.handleFilters.bind(this));
         clearFiltersBtn.addEventListener('click', this.clearFilters.bind(this));
+        locationFilter.addEventListener('change', this.handleFilters.bind(this));
 
         // Location functionality
         const locationBtn = document.getElementById('get-location');
@@ -52,198 +54,61 @@ class FoodieFinder {
     // Generate mock data for food spots
     generateMockData() {
         const restaurants = [
-            {
-                id: 1,
-                name: "Tony's Pizza Palace",
-                type: "pizza",
-                priceLevel: "$",
+            // Food Paradise @ North Canteen
+            { id: 1, name: "Crispy Waffle", type: "waffle", priceLevel: "$", isOpen: true, rating: "😋😋😋", review: "Delicious crispy waffles!", distance: 0.1, cuisine: "Dessert", dietary: "halal", location: "food-paradise" },
+            { id: 2, name: "Takoyaki", type: "takoyaki", priceLevel: "$", isOpen: true, rating: "😋😋😋", review: "Authentic Japanese takoyaki!", distance: 0.2, cuisine: "Japanese", dietary: "halal", location: "food-paradise" },
+            { id: 3, name: "Mr Lok Lok", type: "lok lok", priceLevel: "$$", isOpen: true, rating: "😋😋", review: "Great variety of lok lok options!", distance: 0.3, cuisine: "Asian", dietary: "non-halal", location: "food-paradise" },
+            { id: 4, name: "Chuan Chuan Mix Veg Rice", type: "mixed veg rice", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Affordable and tasty mixed veg rice!", distance: 0.4, cuisine: "Chinese", dietary: "non-halal", location: "food-paradise" },
+            { id: 5, name: "Tang Chao Teochew Noodle House", type: "noodle", priceLevel: "$$",
                 isOpen: true,
                 rating: "😋😋😋",
-                review: "Best late-night pizza! Huge slices and friendly staff.",
-                distance: 0.3,
-                cuisine: "Italian",
-                dietary: "non-halal"
-            },
-            {
-                id: 2,
-                name: "Burger Barn",
-                type: "burger",
-                priceLevel: "$",
-                isOpen: true,
-                rating: "🤤🤤",
-                review: "Amazing burgers with crispy fries. Great student discounts!",
+                review: "Authentic Teochew noodles!",
                 distance: 0.5,
-                cuisine: "American",
-                dietary: "non-halal"
+                cuisine: "Chinese",
+                dietary: "non-halal",
+                location: "food-paradise"
             },
-            {
-                id: 3,
-                name: "Sushi Spot",
-                type: "sushi",
-                priceLevel: "$$",
-                isOpen: false,
-                rating: "😋😋😋😋",
-                review: "Fresh sushi at reasonable prices. Perfect for dates!",
-                distance: 0.7,
-                cuisine: "Japanese",
-                dietary: "halal"
-            },
-            {
-                id: 4,
-                name: "Taco Truck Supreme",
-                type: "tacos",
-                priceLevel: "$",
-                isOpen: true,
-                rating: "🤤🤤🤤",
-                review: "Authentic tacos with amazing salsa. Can't go wrong!",
-                distance: 0.2,
-                cuisine: "Mexican",
-                dietary: "non-halal"
-            },
-            {
-                id: 5,
-                name: "Healthy Bowls Co.",
-                type: "healthy",
-                priceLevel: "$$",
-                isOpen: true,
-                rating: "😋😋",
-                review: "Great for healthy eating. Fresh ingredients and big portions.",
-                distance: 0.4,
-                cuisine: "Health Food",
-                dietary: "vegetarian"
-            },
-            {
-                id: 6,
-                name: "Coffee & Pastries",
-                type: "coffee",
-                priceLevel: "$",
-                isOpen: true,
-                rating: "😋😋😋",
-                review: "Perfect study spot with great coffee and pastries.",
-                distance: 0.1,
-                cuisine: "Cafe",
-                dietary: "vegetarian"
-            },
-            {
-                id: 7,
-                name: "Noodle House",
-                type: "noodles",
-                priceLevel: "$",
-                isOpen: false,
-                rating: "🤤🤤",
-                review: "Steaming hot noodles perfect for cold days.",
-                distance: 0.6,
-                cuisine: "Asian",
-                dietary: "halal"
-            },
-            {
-                id: 8,
-                name: "The Sandwich Shop",
-                type: "sandwich",
-                priceLevel: "$",
-                isOpen: true,
-                rating: "😋",
-                review: "Quick bites between classes. Good portions.",
-                distance: 0.3,
-                cuisine: "Deli",
-                dietary: "non-halal"
-            },
-            {
-                id: 9,
-                name: "Mediterranean Grill",
-                type: "mediterranean",
-                priceLevel: "$$",
-                isOpen: true,
-                rating: "😋😋😋😋",
-                review: "Delicious and healthy Mediterranean food!",
-                distance: 0.8,
-                cuisine: "Mediterranean",
-                dietary: "halal"
-            },
-            {
-                id: 10,
-                name: "Ice Cream Dreams",
-                type: "dessert",
-                priceLevel: "$",
-                isOpen: true,
-                rating: "🤤🤤🤤",
-                review: "Best ice cream in town! Perfect for treating yourself.",
-                distance: 0.4,
-                cuisine: "Dessert",
-                dietary: "vegetarian"
-            },
-            {
-                id: 11,
-                name: "Fancy Steakhouse",
-                type: "steak",
-                priceLevel: "$$$",
-                isOpen: false,
-                rating: "🥱",
-                review: "Expensive and not worth it for students.",
-                distance: 1.2,
-                cuisine: "Steakhouse",
-                dietary: "non-halal"
-            },
-            {
-                id: 12,
-                name: "Breakfast Diner",
-                type: "breakfast",
-                priceLevel: "$",
-                isOpen: true,
-                rating: "😋😋",
-                review: "All-day breakfast with huge portions!",
-                distance: 0.5,
-                cuisine: "American",
-                dietary: "non-halal"
-            },
-            {
-                id: 13,
-                name: "Halal Chicken House",
-                type: "chicken",
-                priceLevel: "$",
-                isOpen: true,
-                rating: "🤤🤤🤤",
-                review: "Crispy halal chicken with amazing spices!",
-                distance: 0.4,
-                cuisine: "Middle Eastern",
-                dietary: "halal"
-            },
-            {
-                id: 14,
-                name: "Vegan Delights",
-                type: "vegan",
-                priceLevel: "$$",
-                isOpen: true,
-                rating: "😋😋😋",
-                review: "Amazing plant-based options that taste incredible!",
-                distance: 0.6,
-                cuisine: "Vegan",
-                dietary: "vegan"
-            },
-            {
-                id: 15,
-                name: "Halal Pizza Corner",
-                type: "pizza",
-                priceLevel: "$",
-                isOpen: true,
-                rating: "😋😋",
-                review: "Authentic halal pizza with fresh ingredients.",
-                distance: 0.5,
-                cuisine: "Italian",
-                dietary: "halal"
-            },
-            {
-                id: 16,
-                name: "Green Garden Cafe",
-                type: "vegetarian",
-                priceLevel: "$",
-                isOpen: true,
-                rating: "😋😋😋",
-                review: "Fresh vegetarian meals with local ingredients.",
-                distance: 0.3,
-                cuisine: "Vegetarian",
-                dietary: "vegetarian"
-            }
+            { id: 6, name: "M&B Food", type: "snacks", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Delicious snacks for a quick bite!", distance: 0.6, cuisine: "Snacks", dietary: "halal", location: "food-paradise" },
+            { id: 7, name: "Prata Stall Indian Muslim Food", type: "prata", priceLevel: "$", isOpen: true, rating: "😋😋😋", review: "Best prata in town!", distance: 0.7, cuisine: "Indian", dietary: "halal", location: "food-paradise" },
+            { id: 8, name: "Chicken Rice", type: "chicken rice", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Classic chicken rice!", distance: 0.8, cuisine: "Asian", dietary: "halal", location: "food-paradise" },
+
+            // Lawn @ W6
+            { id: 9, name: "Smooy Yoghurt & Ice Cream", type: "dessert", priceLevel: "$", isOpen: true, rating: "😋😋😋", review: "Refreshing desserts!", distance: 0.2, cuisine: "Dessert", dietary: "halal", location: "lawn-w6" },
+            { id: 10, name: "Creamy Duck", type: "waffle, takoyaki, ice cream", priceLevel: "$$", isOpen: true, rating: "😋😋😋", review: "Delicious variety!", distance: 0.3, cuisine: "Fusion", dietary: "halal", location: "lawn-w6" },
+            { id: 11, name: "Tea Bar", type: "beverages", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Refreshing drinks!", distance: 0.4, cuisine: "Beverages", dietary: "halal", location: "lawn-w6" },
+            { id: 12, name: "Nuan Thai Food", type: "thai", priceLevel: "$$", isOpen: true, rating: "😋😋", review: "Authentic Thai cuisine!", distance: 0.5, cuisine: "Thai", dietary: "non-halal", location: "lawn-w6" },
+            { id: 13, name: "Fatty Momma", type: "snacks", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Tasty snacks!", distance: 0.6, cuisine: "Snacks", dietary: "halal", location: "lawn-w6" },
+            { id: 14, name: "Ann & Kalsri Chicken Rice", type: "chicken rice", priceLevel: "$", isOpen: true, rating: "😋😋😋", review: "Delicious chicken rice!", distance: 0.7, cuisine: "Asian", dietary: "halal", location: "lawn-w6" },
+            { id: 15, name: "Japanese Fusion", type: "fusion", priceLevel: "$$", isOpen: true, rating: "😋😋", review: "Creative Japanese dishes!", distance: 0.8, cuisine: "Japanese", dietary: "non-halal", location: "lawn-w6" },
+            { id: 16, name: "The Crowded Bowl", type: "vegetarian", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Healthy vegetarian options!", distance: 0.9, cuisine: "Vegetarian", dietary: "vegetarian", location: "lawn-w6" },
+            { id: 17, name: "Ju Fu Mala Hotpot", type: "hotpot", priceLevel: "$$", isOpen: true, rating: "😋😋", review: "Spicy and flavorful!", distance: 1.0, cuisine: "Chinese", dietary: "non-halal", location: "lawn-w6" },
+            { id: 18, name: "Coal 3606", type: "grill", priceLevel: "$$", isOpen: true, rating: "😋😋😋", review: "Perfectly grilled dishes!", distance: 1.1, cuisine: "Grill", dietary: "halal", location: "lawn-w6" },
+
+            // Koufu @ South
+            { id: 19, name: "Nanyang Cafe", type: "cafe", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Cozy and delicious!", distance: 0.2, cuisine: "Cafe", dietary: "halal", location: "south-canteen" },
+            { id: 20, name: "Mala", type: "spicy", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Spicy and tasty!", distance: 0.3, cuisine: "Chinese", dietary: "halal", location: "south-canteen" },
+            { id: 21, name: "Pizza & Chicken Wings", type: "fast food", priceLevel: "$$", isOpen: true, rating: "😋😋😋", review: "Perfect for sharing!", distance: 0.4, cuisine: "Fast Food", dietary: "halal", location: "south-canteen" },
+            { id: 22, name: "Thai Cuisine", type: "thai", priceLevel: "$$", isOpen: true, rating: "😋😋", review: "Authentic Thai flavors!", distance: 0.5, cuisine: "Thai", dietary: "non-halal", location: "south-canteen" },
+            { id: 23, name: "Fishball Noodle", type: "noodle", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Classic and comforting!", distance: 0.6, cuisine: "Chinese", dietary: "non-halal", location: "south-canteen" },
+            { id: 24, name: "Nasi Padang", type: "rice", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Flavorful and filling!", distance: 0.7, cuisine: "Malay", dietary: "halal", location: "south-canteen" },
+            { id: 25, name: "Hotto Neko Hotplate & Bingsu", type: "hotplate", priceLevel: "$$", isOpen: true, rating: "😋😋", review: "Unique and delicious!", distance: 0.8, cuisine: "Fusion", dietary: "halal", location: "south-canteen" },
+
+            // Republic Polytechnic Centre (RPC)
+            { id: 26, name: "Subway", type: "sandwich", priceLevel: "$", isOpen: true, rating: "😋😋😋", review: "Fresh and healthy sandwiches!", distance: 0.2, cuisine: "Fast Food", dietary: "halal", location: "rpc" },
+            { id: 27, name: "7 Eleven", type: "convenient store", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Quick snacks and essentials!", distance: 0.3, cuisine: "Convenience", dietary: "mixed", location: "rpc" },
+            { id: 28, name: "Sushi Tea", type: "sushi", priceLevel: "$$", isOpen: true, rating: "😋😋😋", review: "Delicious sushi and tea!", distance: 0.4, cuisine: "Japanese", dietary: "halal", location: "rpc" },
+            { id: 29, name: "Licious Place", type: "dessert", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Sweet treats and desserts!", distance: 0.5, cuisine: "Dessert", dietary: "halal", location: "rpc" },
+
+            // RP Resource Centre
+            { id: 30, name: "E-meals by Taste Asia", type: "vending machine", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Convenient and tasty meals!", distance: 0.6, cuisine: "Asian", dietary: "mixed", location: "rp-resource-centre" },
+
+            // The Republic Cultural Centre (TRCC)
+            { id: 31, name: "Artease", type: "beverages", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Refreshing drinks and snacks!", distance: 0.7, cuisine: "Cafe", dietary: "mixed", location: "trcc" },
+
+            // Library
+            { id: 32, name: "Artease", type: "beverages", priceLevel: "$", isOpen: true, rating: "😋😋", review: "Relaxing drinks and snacks!", distance: 0.8, cuisine: "Cafe", dietary: "mixed", location: "library" },
+
+            // Additional locations and food spots can be added here following the same structure
         ];
 
         return restaurants;
@@ -279,6 +144,7 @@ class FoodieFinder {
         const priceFilter = document.getElementById('price-filter').value;
         const openFilter = document.getElementById('open-filter').value;
         const halalFilter = document.getElementById('halal-filter').value;
+        const locationFilter = document.getElementById('location-filter').value;
         const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
 
         let filteredResults = this.mockData;
@@ -314,6 +180,13 @@ class FoodieFinder {
             );
         }
 
+        // Apply location filter
+        if (locationFilter) {
+            filteredResults = filteredResults.filter(restaurant => 
+                restaurant.location === locationFilter
+            );
+        }
+
         this.currentResults = filteredResults.sort((a, b) => a.distance - b.distance);
         this.displayResults(this.currentResults);
     }
@@ -324,6 +197,7 @@ class FoodieFinder {
         document.getElementById('open-filter').value = '';
         document.getElementById('halal-filter').value = '';
         document.getElementById('search-input').value = '';
+        document.getElementById('location-filter').value = '';
         this.loadInitialResults();
     }
 
