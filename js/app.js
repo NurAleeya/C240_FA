@@ -229,7 +229,7 @@ class FoodieFinder {
     // Create HTML for a food card
     createFoodCard(restaurant) {
         const isFavorited = this.favorites.some(fav => fav.id === restaurant.id);
-        const favoriteText = isFavorited ? '❤️ Favorited' : '🤍 Add to Favorites';
+        const favoriteText = isFavorited ? '❤️ Favourited' : '🤍 Add to Favourites';
         const favoriteClass = isFavorited ? 'favorited' : '';
         
         // Get dietary emoji and text
@@ -264,10 +264,10 @@ class FoodieFinder {
                                 aria-label="${isFavorited ? 'Remove from favorites' : 'Add to favorites'}">
                             ${favoriteText}
                         </button>
-                        <button class="directions-btn" 
+                        <button class="share-btn" 
                                 data-restaurant-id="${restaurant.id}"
-                                aria-label="Get directions to ${restaurant.name}">
-                            📍 Directions
+                                aria-label="Share ${restaurant.name} link">
+                            🔗 Share
                         </button>
                     </div>
                 </div>
@@ -303,10 +303,10 @@ class FoodieFinder {
             btn.addEventListener('click', this.toggleFavorite.bind(this));
         });
 
-        // Directions buttons
-        const directionsButtons = document.querySelectorAll('.directions-btn');
-        directionsButtons.forEach(btn => {
-            btn.addEventListener('click', this.getDirections.bind(this));
+        // Share buttons
+        const shareButtons = document.querySelectorAll('.share-btn');
+        shareButtons.forEach(btn => {
+            btn.addEventListener('click', this.shareLink.bind(this));
         });
     }
 
@@ -322,14 +322,14 @@ class FoodieFinder {
         if (favoriteIndex === -1) {
             // Add to favorites
             this.favorites.push(restaurant);
-            event.target.textContent = '❤️ Favorited';
-            event.target.classList.add('favorited');
-            event.target.setAttribute('aria-label', 'Remove from favorites');
+            event.target.textContent = '❤️ Remove from Favourites';
+            event.target.classList.add('favourited');
+            event.target.setAttribute('aria-label', 'Remove from favourites');
         } else {
             // Remove from favorites
             this.favorites.splice(favoriteIndex, 1);
-            event.target.textContent = '🤍 Add to Favorites';
-            event.target.classList.remove('favorited');
+            event.target.textContent = '🤍 Add to Favourites';
+            event.target.classList.remove('favourited');
             event.target.setAttribute('aria-label', 'Add to favorites');
         }
 
@@ -337,15 +337,32 @@ class FoodieFinder {
         this.displayFavorites();
     }
 
-    // Get directions (simulated)
-    getDirections(event) {
+    // Share stall link
+    shareLink(event) {
         const restaurantId = parseInt(event.target.dataset.restaurantId);
         const restaurant = this.mockData.find(r => r.id === restaurantId);
-        
+
         if (!restaurant) return;
 
-        // Simulate opening directions
-        alert(`🗺️ Opening directions to ${restaurant.name}...\n\nIn a real app, this would open your maps app with directions!`);
+        // Open sharing popup
+        const popup = document.getElementById('share-popup');
+        const popupTitle = document.getElementById('share-popup-title');
+        const whatsappLink = document.getElementById('share-whatsapp');
+        const facebookLink = document.getElementById('share-facebook');
+        const twitterLink = document.getElementById('share-twitter');
+        const emailLink = document.getElementById('share-email');
+
+        const link = `${window.location.origin}?stall=${restaurantId}`;
+
+        // Update popup content
+        popupTitle.textContent = `Share ${restaurant.name}`;
+        whatsappLink.href = `https://wa.me/?text=${encodeURIComponent(link)}`;
+        facebookLink.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`;
+        twitterLink.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(link)}`;
+        emailLink.href = `mailto:?subject=Check out this food stall!&body=${encodeURIComponent(link)}`;
+
+        // Show popup
+        popup.style.display = 'block';
     }
 
     // Display favorites
@@ -373,10 +390,10 @@ class FoodieFinder {
     getUserLocation() {
         const locationBtn = document.getElementById('get-location');
         const locationStatus = document.getElementById('location-status');
-        
+
         locationBtn.disabled = true;
         locationBtn.textContent = '📍 Getting Location...';
-        
+
         locationStatus.textContent = 'Requesting location access...';
         locationStatus.className = 'location-status';
 
@@ -391,15 +408,15 @@ class FoodieFinder {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
-                
-                locationStatus.textContent = '✅ Location found! Showing nearby food spots.';
+
+                locationStatus.textContent = '✅ Location successfully retrieved!';
                 locationStatus.className = 'location-status success';
-                
+
                 locationBtn.disabled = false;
                 locationBtn.textContent = '📍 Location Updated';
-                
-                // Simulate updating distances based on location
-                this.updateDistancesBasedOnLocation();
+
+                // Show popup indicating location retrieval
+                alert('Your location has been successfully retrieved!');
             },
             (error) => {
                 this.handleLocationError(this.getLocationErrorMessage(error));

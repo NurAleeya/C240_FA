@@ -6,6 +6,22 @@
     <title>Foodie Finder - Find Your Next Meal</title>
     <meta name="description" content="Find nearby food spots with student-friendly reviews and emoji ratings">
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .share-btn {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        .share-btn:hover {
+            background-color: #45a049; /* Darker green */
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -101,12 +117,19 @@
                 </div>
                 <div class="results-container" id="results-container" role="region" aria-live="polite">
                     <!-- Results will be dynamically inserted here -->
+                    <!-- Example Stall -->
+                    <div class="stall">
+                        <h3 class="stall-name">Example Stall Name</h3>
+                        <p class="stall-description">Delicious food options available here!</p>
+                        <button class="share-link-btn share-btn" aria-label="Share link for Example Stall">🔗 Share Link</button>
+                    </div>
+                    <!-- Repeat similar structure for other stalls dynamically -->
                 </div>
             </section>
 
             <!-- Favorites Section -->
             <section class="favorites-section" aria-label="Your favorites">
-                <h2 class="favorites-title">Your Favorites ❤️</h2>
+                <h2 class="favorites-title">Your Favourites ❤️</h2>
                 <div class="favorites-container" id="favorites-container">
                     <!-- Favorites will be dynamically inserted here -->
                 </div>
@@ -192,6 +215,30 @@
       ← Back
     </a>
 
+    <!-- Sharing Popup -->
+    <div id="share-popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; padding: 20px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); width: 90%; max-width: 600px;">
+        <h3 id="share-popup-title" style="text-align: center;">Share</h3>
+        <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
+            <a id="share-whatsapp" href="#" target="_blank" style="display: flex; flex-direction: column; align-items: center; margin: 10px; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; text-align: center; text-decoration: none; width: 120px;">
+                <img src="assets/whatsapp-logo.png" alt="WhatsApp" style="width: 40px; height: 40px; margin-bottom: 5px;">
+                Share via WhatsApp
+            </a>
+            <a id="share-facebook" href="#" target="_blank" style="display: flex; flex-direction: column; align-items: center; margin: 10px; padding: 10px; background-color: #3b5998; color: white; border: none; border-radius: 5px; text-align: center; text-decoration: none; width: 120px;">
+                <img src="assets/facebook-logo.png" alt="Facebook" style="width: 40px; height: 40px; margin-bottom: 5px;">
+                Share via Facebook
+            </a>
+            <a id="share-twitter" href="#" target="_blank" style="display: flex; flex-direction: column; align-items: center; margin: 10px; padding: 10px; background-color: #1DA1F2; color: white; border: none; border-radius: 5px; text-align: center; text-decoration: none; width: 120px;">
+                <img src="assets/twitter-logo.png" alt="Twitter" style="width: 40px; height: 40px; margin-bottom: 5px;">
+                Share via Twitter
+            </a>
+            <a id="share-email" href="#" target="_blank" style="display: flex; flex-direction: column; align-items: center; margin: 10px; padding: 10px; background-color: #f44336; color: white; border: none; border-radius: 5px; text-align: center; text-decoration: none; width: 120px;">
+                <img src="assets/email-logo.png" alt="Email" style="width: 40px; height: 40px; margin-bottom: 5px;">
+                Share via Email
+            </a>
+        </div>
+        <button onclick="document.getElementById('share-popup').style.display='none'" style="margin-top: 10px; padding: 10px; background-color: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer; display: block; margin-left: auto; margin-right: auto;">Close</button>
+    </div>
+
     <footer class="footer">
         <div class="container">
             <p>&copy; 2025 Foodie Finder. Made with ❤️ for students.</p>
@@ -199,5 +246,33 @@
     </footer>
 
     <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const shareButtons = document.querySelectorAll('.share-link-btn');
+
+            shareButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent clipboard functionality
+
+                    const stallName = event.target.closest('.stall').querySelector('.stall-name').textContent;
+                    const currentUrl = window.location.href;
+                    const shareOptions = [
+                        { platform: 'WhatsApp', url: `https://wa.me/?text=Check out ${stallName} at ${currentUrl}` },
+                        { platform: 'Facebook', url: `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}` },
+                        { platform: 'Twitter', url: `https://twitter.com/intent/tweet?text=Check out ${stallName} at ${currentUrl}` },
+                        { platform: 'Email', url: `mailto:?subject=Check out ${stallName}&body=Visit this amazing stall at ${currentUrl}` }
+                    ];
+
+                    document.getElementById('share-popup-title').textContent = `Share ${stallName}`;
+                    document.getElementById('share-whatsapp').setAttribute('href', shareOptions[0].url);
+                    document.getElementById('share-facebook').setAttribute('href', shareOptions[1].url);
+                    document.getElementById('share-twitter').setAttribute('href', shareOptions[2].url);
+                    document.getElementById('share-email').setAttribute('href', shareOptions[3].url);
+
+                    document.getElementById('share-popup').style.display = 'block';
+                });
+            });
+        });
+    </script>
 </body>
 </html>
